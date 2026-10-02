@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>بازگر سنگت اے آئی - Bazgar Sangat AI </title>
+    
+    <!-- PWA Web App Manifest & Metadata -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a5e1a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Bazgar AI">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    
+    <!-- External CSS & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.10/dist/dotlottie-wc.js" type="module"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FFFFFF;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-tree"></i>
+            </div>
+            <div class="logo-text">
+                <h1>بازگر سنگت <span class="ai-highlight">AI</span></h1>
+                <span class="logo-sub">بلوچ بازگارانی اولی اے آئی</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link active" data-page="homePage"><i class="fas fa-home"></i> <span id="navHome">Home</span></a>
+            <a href="#" class="nav-link" data-page="detectionPage"><i class="fas fa-microscope"></i> <span id="navDetect">Detection</span></a>
+            <a href="#" class="nav-link" data-page="translatorPage"><i class="fas fa-language"></i> <span id="navTranslator">Translator</span></a>
+            <a href="#" class="nav-link" data-page="assistantPage"><i class="fas fa-robot"></i> <span id="navAssistant">Crop Assistant</span></a>
+            <a href="#" class="nav-link" data-page="chatbotPage"><i class="fas fa-comments"></i> <span id="navChatbot">Chatbot</span></a>
+            <a href="#" class="nav-link" data-page="datahubPage"><i class="fas fa-chart-line"></i> <span id="navDatahub">Data Hub</span></a>
+        </div>
+        <div class="nav-actions">
+            <button class="lang-switch-btn" id="langToggle"><i class="fas fa-globe"></i> <span id="langBtnText">بلوچی</span></button>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT WRAPPER -->
+<main class="main-content">
+    <div class="container">
+        
+        <!-- HOMEPAGE (BALOCHI CULTURAL THEME WITH DYNAMIC LANGUAGE) -->
+        <div id="homePage" class="page-card">
+            
+            <!-- HERO SECTION -->
+            <section class="hero-section">
+                <div class="slider-container">
+                    <div class="slider-wrapper" id="heroSlider">
+                        <div class="slide active">
+                            <div class="slide-bg">
+                                <img src="b1.png" alt="Balochi Farmer">
+                            </div>
+                            <div class="slide-content">
+                                <h2 id="heroTitle1">بازگار سنگت <span class="gold-text">AI</span></h2>
+                                <p id="heroTagline1" class="slide-tagline">جدیدیں کِشاریت، بلوچی دود ءُ ربیدگ</p>
+                                <button class="btn-hero" id="heroStartBtn"><span id="heroBtn1Text">پجاری ءَ بنگیج کن</span> <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-bg">
+                                <img src="b3.png" alt="Balochi Embroidery">
+                            </div>
+                            <div class="slide-content">
+                                <h2 id="heroTitle2">دستکاری <span class="gold-text">ءُ ٹیکنالوجی</span></h2>
+                                <p id="heroTagline2" class="slide-tagline">پنج ہزار سالہ بلوچی دود، جدید اے آئی گوں یکجاہ</p>
+                                <button class="btn-hero" id="heroLearnBtn"><span id="heroBtn2Text">گیشتر زان</span> <i class="fas fa-book-open"></i></button>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-bg">
+                                <img src="b5.png" alt="Apple Orchard">
+                            </div>
+                            <div class="slide-content">
+                                <h2 id="heroTitle3">سوب ءِ باغ <span class="gold-text">بچگ</span></h2>
+                                <p id="heroTagline3" class="slide-tagline">اے آئی گوں نادراہی ءَ پجار، فوری علاج بلوچی ءَ</p>
+                                <button class="btn-hero" id="heroDetectBtn"><span id="heroBtn3Text">نادراہی ءِ پجاری</span> <i class="fas fa-stethoscope"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="slide">
+                            <div class="slide-bg">
+                                <img src="b7.png" alt="Balochi Embroidery">
+                            </div>
+                            <div class="slide-content">
+                                <h2 id="heroTitle2">دستکاری <span class="gold-text">ءُ ٹیکنالوجی</span></h2>
+                                <p id="heroTagline2" class="slide-tagline">پنج ہزار سالہ بلوچی دود، جدید اے آئی گوں یکجاہ</p>
+                                <button class="btn-hero" id="heroLearnBtn"><span id="heroBtn2Text">گیشتر زان</span> <i class="fas fa-book-open"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="slide">
+                            <div class="slide-bg">
+                                <img src="b13.png" alt="Balochi Embroidery">
+                            </div>
+                            <div class="slide-content">
+                                <h2 id="heroTitle2">دستکاری <span class="gold-text">ءُ ٹیکنالوجی</span></h2>
+                                <p id="heroTagline2" class="slide-tagline">پنج ہزار سالہ بلوچی دود، جدید اے آئی گوں یکجاہ</p>
+                                <button class="btn-hero" id="heroLearnBtn"><span id="heroBtn2Text">گیشتر زان</span> <i class="fas fa-book-open"></i></button>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-bg">
+                                <img src="b14.png" alt="Balochi Embroidery">
+                            </div>
+                            <div class="slide-content">
+                                <h2 id="heroTitle2">دستکاری <span class="gold-text">ءُ ٹیکنالوجی</span></h2>
+                                <p id="heroTagline2" class="slide-tagline">پنج ہزار سالہ بلوچی دود، جدید اے آئی گوں یکجاہ</p>
+                                <button class="btn-hero" id="heroLearnBtn"><span id="heroBtn2Text">گیشتر زان</span> <i class="fas fa-book-open"></i></button>
+                            </div>
+                        </div>
+                        <div class="slide">
+                            <div class="slide-bg">
+                                <img src="b15.png" alt="Balochi Embroidery">
+                            </div>
+                            <div class="slide-content">
+                                <h2 id="heroTitle2">دستکاری <span class="gold-text">ءُ ٹیکنالوجی</span></h2>
+                                <p id="heroTagline2" class="slide-tagline">پنج ہزار سالہ بلوچی دود، جدید اے آئی گوں یکجاہ</p>
+                                <button class="btn-hero" id="heroLearnBtn"><span id="heroBtn2Text">گیشتر زان</span> <i class="fas fa-book-open"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="slider-btn prev" id="sliderPrev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slider-btn next" id="sliderNext"><i class="fas fa-chevron-right"></i></button>
+                    <div class="slider-dots" id="sliderDots"></div>
+                </div>
+            </section>
+
+            <!-- FEATURES SECTION -->
+            <section class="features-section">
+                <div class="section-header">
+                    <h2 id="featuresTitle"><i class="fas fa-star-of-life"></i> خاصیں کار</h2>
+                    <p id="featuresSub">بلوچ بازگارانی واستہ خصوصی اے آئی خدمات</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-microchip"></i></div>
+                        <h3 id="feature1Title">اے آئی ءَ نادراہی ءِ پجاری</h3>
+                        <p id="feature1Desc">سوب ءِ نادراہی ءَ اے آئی ءَ پہ زوت پجار</p>
+                        <div class="lottie-icon-mini">
+                            <dotlottie-wc src="https://lottie.host/dcd048ad-1628-43b9-a5a1-b1325ab8d569/5xUyj93qP7.lottie" style="width: 60px;height: 60px" autoplay loop></dotlottie-wc>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                        <h3 id="feature2Title">آر ایل کِشار ءِ کمک کار</h3>
+                        <p id="feature2Desc">اے آئی ءِ نیمگ ءَ کشاورزی ءِ سوج</p>
+                        <div class="lottie-icon-mini">
+                            <dotlottie-wc src="https://lottie.host/6784cb13-5b85-4974-8538-3120c8b2f0fa/0AEUmDK0f2.lottie" style="width: 60px;height: 60px" autoplay loop></dotlottie-wc>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-language"></i></div>
+                        <h3 id="feature3Title">بلوچی زبان ءِ کمک</h3>
+                        <p id="feature3Desc">لوکلیں بازگارانی ہاترا پوره بلوچی ایپ</p>
+                        <div class="lottie-icon-mini">
+                            <dotlottie-wc src="https://lottie.host/18d98d8a-795b-434b-a061-0aa99a04ed27/vrZnAI6Gas.lottie" style="width: 60px;height: 60px" autoplay loop></dotlottie-wc>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CULTURAL SHOWCASE SECTION -->
+            <section class="cultural-showcase">
+                <div class="cultural-container">
+                    <div class="cultural-text">
+                        <h2 id="culturalTitle"><i class="fas fa-hand-sparkles"></i> بلوچ بازگار ءُ اے آئی</h2>
+                        <p id="culturalDesc">بلوچی دود ۵۰۰۰ سال پرانی انت۔ مرچی، مئے بازگار وتی سوب ءِ باغانی بچّگ ءَ اے آئی کارمرز کنگ انت ءُ وتی دوداں برجاہ دارگ انت۔ دستکاری ءُ ٹیکنالوجی یکجاہ بنت۔</p>
+                        <button class="btn-outline-gold" id="culturalLearnBtn"><span id="culturalBtnText">گیشتر زان</span> <i class="fas fa-arrow-left"></i></button>
+                    </div>
+                    <div class="cultural-animation">
+                        <dotlottie-wc src="https://lottie.host/dcd048ad-1628-43b9-a5a1-b1325ab8d569/5xUyj93qP7.lottie" style="width: 280px;height: 280px" autoplay loop></dotlottie-wc>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STATISTICS SECTION -->
+            <section class="stats-section">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <span class="stat-number" data-count="15000">0</span>
+                        <span id="stat1Label" class="stat-label">کمک بیتگیں بازگار</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-apple-alt"></i>
+                        <span class="stat-number" data-count="4">0</span>
+                        <span id="stat2Label" class="stat-label">پجاری بیتگیں نادراہی</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span class="stat-number" data-count="94">0</span>
+                        <span id="stat3Label" class="stat-label">راستیں دروشم ءِ کساس</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span class="stat-number" data-count="8500">0</span>
+                        <span id="stat4Label" class="stat-label">کارمرز کنوکیں مردم</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HOW IT WORKS SECTION -->
+            <section class="howitworks-section">
+                <div class="section-header">
+                    <h2 id="howItWorksTitle"><i class="fas fa-cogs"></i> اے ایپ چتور کار کنت</h2>
+                </div>
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <i class="fas fa-cloud-upload-alt step-icon"></i>
+                        <h3 id="step1Title">سوب ءِ پُتک ءِ اکس دیم دئے</h3>
+                        <p id="step1Desc">کیمرا یا فائل گوں تصویر اپ لوڈ کن</p>
+                    </div>
+                    <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <i class="fas fa-microscope step-icon"></i>
+                        <h3 id="step2Title">اے آئی نادراہی ءَ پجارگ انت</h3>
+                        <p id="step2Desc">چند سیکنڈ ءَ سیب ءِ بیماری ءِ شناخت</p>
+                    </div>
+                    <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <i class="fas fa-leaf step-icon"></i>
+                        <h3 id="step3Title">بلوچی ءَ درمان زان</h3>
+                        <p id="step3Desc">مکمل علاج ءُ تجویز بلوچی زبان ءَ</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TESTIMONIALS SECTION -->
+            <section class="testimonials-section">
+                <div class="section-header">
+                    <h2 id="testimonialsTitle"><i class="fas fa-comment-dots"></i> شما گوشت (مردمانی گپ)</h2>
+                </div>
+                <div class="testimonial-carousel">
+                    <div class="testimonial-slider" id="testimonialSlider">
+                        <div class="testimonial-item active">
+                            <div class="testimonial-content">
+                                <i class="fas fa-quote-right"></i>
+                                <p id="testimonial1Text">اے اے آئی ایپ ءَ منی سوب ءِ باغ بچّینت! گندوکیں نادراہی ءَ زوت پجاری بوت۔ بلوچی ءَ درمان پدا ءَ ملوت۔ ماشاءاللہ!</p>
+                                <h4 id="testimonial1Name">- عبدالرحیم، تربت</h4>
+                            </div>
+                        </div>
+                        <div class="testimonial-item">
+                            <div class="testimonial-content">
+                                <i class="fas fa-quote-right"></i>
+                                <p id="testimonial2Text">من بلوچی کشتکار آں۔ اے ایپ منی ہاترا وتی باغ ءِ سارانگی ءَ بہترین کمک ات۔ سب سے بہترین چیز بلوچی زبان انت۔</p>
+                                <h4 id="testimonial2Name">- فاطمہ، مستونگ</h4>
+                            </div>
+                        </div>
+                        <div class="testimonial-item">
+                            <div class="testimonial-content">
+                                <i class="fas fa-quote-right"></i>
+                                <p id="testimonial3Text">آر ایل کمک کار ءَ منی کشار ءِ گندم ءِ پتک زردی ءِ مسئلہ حل بوت۔ بہت شکریہ بازگار سنگت اے آئی</p>
+                                <h4 id="testimonial3Name">- محمد عمر، قلعہ عبداللہ</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="testimonial-prev" id="testPrev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="testimonial-next" id="testNext"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+
+            <!-- NEWSLETTER SECTION -->
+            <section class="newsletter-section">
+                <div class="newsletter-container">
+                    <i class="fas fa-envelope-open-text newsletter-icon"></i>
+                    <h3 id="newsletterTitle">ڈیجیٹل کِشاری ٹولی ءِ باسک بہ بئے</h3>
+                    <form id="newsletterForm">
+                        <div class="newsletter-input-group">
+                            <input type="email" id="newsletterEmail" placeholder="وتی ای میل ایڈریس نبشتہ کن" required>
+                            <button type="submit" id="newsletterBtnText">مرچی سبسکرائب کن <i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <!-- DETECTION PAGE (ORIGINAL FUNCTIONALITY) -->
+        <div id="detectionPage" class="page-card">
+            <div class="card-header">
+                <div class="header-icon"><i class="fas fa-leaf"></i></div>
+                <div class="header-text">
+                    <h2 id="detectionTitle"></h2>
+                    <p id="detectionSub">AI-based recognition | Real-time diagnosis</p>
+                </div>
+            </div>
+            
+            <div id="apiStatus" class="api-status status-checking">
+                <i class="fas fa-sync-alt fa-spin"></i> <span id="apiStatusText">Checking API connection...</span>
+            </div>
+            
+            <div class="detection-grid">
+                <div class="input-panel">
+                    <div class="upload-area">
+                        <div class="btn-group">
+                            <button class="btn btn-outline" id="fileUploadBtn"><i class="fas fa-folder-open"></i> <span id="chooseFileText"></span></button>
+                            <input type="file" id="fileInput" accept="image/*" style="display:none">
+                            <span id="fileName" class="file-label"><i class="far fa-file-image"></i> <span id="noFileText"></span></span>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" id="cameraBtn"><i class="fas fa-camera"></i> <span id="cameraText"></span></button>
+                        </div>
+                    </div>
+                    <div id="previewArea" class="preview-container" style="display:none">
+                        <div class="preview-image-wrapper">
+                            <img id="previewImg" alt="Preview">
+                            <button class="clear-btn" id="clearBtn"><i class="fas fa-trash-alt"></i> <span id="clearText"></span></button>
+                        </div>
+                    </div>
+                    <button class="btn btn-predict" id="predictBtn"><i class="fas fa-stethoscope"></i> <span id="predictText"></span></button>
+                </div>
+                
+                <div class="result-panel">
+                    <div id="loadingState" class="loading-state" style="display:none">
+                        <div class="spinner-border"></div>
+                        <p id="loadingText"></p>
+                    </div>
+                    <div id="resultSection" class="result-wrapper" style="display:none">
+                        <div class="result-header">
+                            <i class="fas fa-clinic-medical"></i>
+                            <h3 id="resultTitle"></h3>
+                        </div>
+                        <div id="resultContent" class="result-content"></div>
+                    </div>
+                    <div class="info-placeholder" id="infoPlaceholder">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p id="placeholderText"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRANSLATOR PAGE -->
+        <div id="translatorPage" class="page-card">
+            <div class="coming-soon-card">
+                <i class="fas fa-language fa-3x"></i>
+                <h2 id="translatorPageTitle"></h2>
+                <p id="comingSoonMsg"></p>
+                <div class="coming-soon-progress"><span></span></div>
+            </div>
+        </div>
+
+        <!-- CROP ASSISTANT PAGE (UPDATED PREMIUM MODERN AI AGENT LOOK) -->
+        <div id="assistantPage" class="page-card">
+            <div class="card-header premium-header">
+                <div class="header-icon premium-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="header-text">
+                    <h2 id="assistantTitle"></h2>
+                    <p id="assistantSub">Reinforcement Learning Agent | UCB1 Multi-Arm Bandit</p>
+                </div>
+                <!--<div class="header-lottie">
+                    <dotlottie-wc src="https://lottie.host/b336d9a4-8ce8-4760-a43d-7d7dba23662c/jZpZ8Kk34o.lottie" style="width: 400px;height: 400px" autoplay loop></dotlottie-wc>
+                </div>-->
+            </div>
+            
+            <div class="assistant-premium-grid">
+                <!-- Chat Area -->
+                <div class="assistant-chat-premium">
+                    <div class="chat-header-premium">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>AI Agent Conversation</span>
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <div class="chat-messages-premium" id="assistantMessagesContainer">
+                        <div class="message-premium assistant-premium">
+                            <div class="msg-bubble-premium assistant-premium-bubble">
+                                <i class="fas fa-robot"></i> من تئی "آر ایل" [RL] کِشاری کارساز آں! السلام علیکم!<br>
+                                وتی کِشار (Crop) ءِ نادراہی یا مسئلہ ءَ نبشتہ بہ کن (گندم، ٹماٹر، کپاس، بریسنج وغیرہ)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-premium">
+                        <input type="text" id="assistantUserInput" placeholder="بلوچی، اُردو یا انگریزی ءَ نبشتہ بہ کن" autocomplete="off">
+                        <button id="assistantSendBtn"><i class="fas fa-paper-plane"></i> Send</button>
+                    </div>
+                </div>
+                
+                <!-- Stats Sidebar with Dropdown -->
+                <div class="assistant-stats-premium">
+                    <div class="stats-premium-card">
+                        <div class="stats-premium-header">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>RL Agent Analytics</h3>
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        
+                        <!-- Dropdown Section 1: Agent Parameters -->
+                        <div class="dropdown-card">
+                            <div class="dropdown-header" onclick="toggleDropdown('paramsDropdown')">
+                                <i class="fas fa-sliders-h"></i>
+                                <span>Agent Parameters</span>
+                                <i class="fas fa-chevron-down dropdown-icon"></i>
+                            </div>
+                            <div class="dropdown-content" id="paramsDropdown">
+                                <div class="param-row">
+                                    <span><i class="fas fa-dice-d6"></i> Exploration (ε)</span>
+                                    <strong id="epsilonValue">0.20</strong>
+                                </div>
+                                <div class="param-row">
+                                    <span><i class="fas fa-square-root-alt"></i> UCB constant (c)</span>
+                                    <strong>1.414</strong>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Dropdown Section 2: Memory Controls -->
+                        <div class="dropdown-card">
+                            <div class="dropdown-header" onclick="toggleDropdown('memoryDropdown')">
+                                <i class="fas fa-database"></i>
+                                <span>Memory Management</span>
+                                <i class="fas fa-chevron-down dropdown-icon"></i>
+                            </div>
+                            <div class="dropdown-content" id="memoryDropdown">
+                                <button class="premium-action-btn" id="resetMemoryBtn"><i class="fas fa-sync-alt"></i> Reset Memory</button>
+                                <button class="premium-action-btn" id="saveMemoryBtn"><i class="fas fa-save"></i> Save Memory</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Dropdown Section 3: Learning Statistics -->
+                        <div class="dropdown-card">
+                            <div class="dropdown-header" onclick="toggleDropdown('statsDropdown')">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Learning Statistics</span>
+                                <i class="fas fa-chevron-down dropdown-icon"></i>
+                            </div>
+                            <div class="dropdown-content" id="statsDropdown">
+                                <div class="stats-list-premium" id="problemStatsList">
+                                    <div class="empty-stats-premium">
+                                        <i class="fas fa-robot"></i>
+                                        <p>Send a message to see learning progress...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Dropdown Section 4: UCB Formula -->
+                        <div class="dropdown-card">
+                            <div class="dropdown-header" onclick="toggleDropdown('formulaDropdown')">
+                                <i class="fas fa-square-root-alt"></i>
+                                <span>UCB Formula</span>
+                                <i class="fas fa-chevron-down dropdown-icon"></i>
+                            </div>
+                            <div class="dropdown-content" id="formulaDropdown">
+                                <div class="formula-premium">
+                                    <code>UCB(i) = μ + c·√(2·ln(t)/n)</code>
+                                    <p><i class="fas fa-lightbulb"></i> Upper Confidence Bound for optimal arm selection</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHATBOT PAGE -->
+        <div id="chatbotPage" class="page-card">
+            <div class="coming-soon-card">
+                <i class="fas fa-comments fa-3x"></i>
+                <h2 id="chatbotPageTitle"></h2>
+                <p>Coming Soon</p>
+            </div>
+        </div>
+
+        <!-- DATA HUB PAGE -->
+        <div id="datahubPage" class="page-card">
+            <div class="coming-soon-card">
+                <i class="fas fa-chart-simple fa-3x"></i>
+                <h2 id="datahubPageTitle"></h2>
+                <p>Coming Soon</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-brand"><i class="fas fa-tree"></i><span id="footerBrand">بازگار سنگت اے آئی</span><p id="footerText"></p></div>
+        <div class="footer-tech"><i class="fab fa-python"></i> TensorFlow Lite · <i class="fas fa-microchip"></i> FastAPI · <i class="fas fa-cloud-sun"></i> AI Inference</div>
+        <div class="footer-copy"><i class="far fa-copyright"></i> 2025 Bazgar Sangat AI — <span id="footerCopyText">تیکنیکی کشاورزی</span></div>
+    </div>
+</footer>
+
+<!-- CAMERA MODAL -->
+<div id="cameraModal" class="camera-modal" style="display:none">
+    <div class="modal-content-glass">
+        <div class="camera-view"><video id="video" autoplay playsinline></video><canvas id="canvas" style="display:none"></canvas></div>
+        <div class="camera-controls">
+            <button class="cam-btn" id="captureBtn"><i class="fas fa-camera-retro"></i> <span id="captureText"></span></button>
+            <button class="cam-btn" id="retakeBtn" style="display:none"><i class="fas fa-rotate-left"></i> <span id="retakeText"></span></button>
+            <button class="cam-btn success" id="usePhotoBtn" style="display:none"><i class="fas fa-check-circle"></i> <span id="usePhotoText"></span></button>
+            <button class="cam-btn" id="switchCameraBtn"><i class="fas fa-sync-alt"></i> <span id="switchCameraText"></span></button>
+            <button class="cam-btn close" id="closeCameraBtn"><i class="fas fa-times"></i> <span id="closeText"></span></button>
+        </div>
+    </div>
+</div>
+
+<!-- VOICE PLAYER COMPONENT -->
+<div id="voicePlayer" class="voice-player" style="display: none;">
+    <div class="voice-player-content">
+        <div class="voice-animation"><i class="fas fa-volume-up"></i><div class="wave-bars"><span></span><span></span><span></span><span></span></div></div>
+        <div class="voice-info"><div class="voice-title">🎧 Balochi Treatment Recommendation</div><div class="voice-status" id="voiceStatus">Playing...</div></div>
+        <button id="stopVoiceBtn" class="stop-voice-btn"><i class="fas fa-stop-circle"></i> Stop</button>
+    </div>
+</div>
+
+<audio id="voiceAudio" style="display: none;"></audio>
+
+<script>
+    // Dropdown toggle function for assistant page
+    function toggleDropdown(id) {
+        const content = document.getElementById(id);
+        const header = content.previousElementSibling;
+        const icon = header.querySelector('.dropdown-icon');
+        
+        if (content.style.display === 'block') {
+            content.style.display = 'none';
+            if (icon) icon.style.transform = 'rotate(0deg)';
+        } else {
+            content.style.display = 'block';
+            if (icon) icon.style.transform = 'rotate(180deg)';
+        }
+    }
+    
+    // Initialize dropdowns as closed
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdownIds = ['paramsDropdown', 'memoryDropdown', 'statsDropdown', 'formulaDropdown'];
+        dropdownIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
+        });
+    });
+</script>
+
+<!-- APP.JS -->
+<script src="app.js"></script>
+
+<script>
+    // HOMEPAGE SPECIFIC FUNCTIONS - INDEPENDENT FROM EXISTING FUNCTIONALITY
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hero Slider Autoplay
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('#heroSlider .slide');
+        const dotsContainer = document.getElementById('sliderDots');
+        const prevBtn = document.getElementById('sliderPrev');
+        const nextBtn = document.getElementById('sliderNext');
+        let autoSlideInterval;
+        
+        function createDots() {
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === currentSlide) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
+            });
+        }
+        
+        function goToSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+            if (dotsContainer) {
+                document.querySelectorAll('.dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            }
+            resetAutoSlide();
+        }
+        
+        function nextSlide() { goToSlide((currentSlide + 1) % slides.length); }
+        function prevSlide() { goToSlide((currentSlide - 1 + slides.length) % slides.length); }
+        function resetAutoSlide() {
+            if (autoSlideInterval) clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(nextSlide, 5000);
+        }
+        
+        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetAutoSlide(); });
+        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetAutoSlide(); });
+        
+        createDots();
+        resetAutoSlide();
+        
+        // Statistics Counter Animation
+        const statNumbers = document.querySelectorAll('.stat-number');
+        function animateNumbers() {
+            statNumbers.forEach(el => {
+                const target = parseInt(el.getAttribute('data-count'));
+                let current = 0;
+                const increment = Math.ceil(target / 50);
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        el.innerText = target + (el.getAttribute('data-count') === '94' ? '%' : '+');
+                        clearInterval(timer);
+                    } else {
+                        el.innerText = current + (el.getAttribute('data-count') === '94' ? '%' : '');
+                    }
+                }, 30);
+            });
+        }
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateNumbers();
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) observer.observe(statsSection);
+        
+        // Testimonial Carousel
+        let testIndex = 0;
+        const testItems = document.querySelectorAll('.testimonial-item');
+        const testPrev = document.getElementById('testPrev');
+        const testNext = document.getElementById('testNext');
+        
+        function showTestimonial(index) {
+            testItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+        
+        if (testNext) testNext.addEventListener('click', () => {
+            testIndex = (testIndex + 1) % testItems.length;
+            showTestimonial(testIndex);
+        });
+        if (testPrev) testPrev.addEventListener('click', () => {
+            testIndex = (testIndex - 1 + testItems.length) % testItems.length;
+            showTestimonial(testIndex);
+        });
+        
+        // Newsletter 
+        const newsletterForm = document.getElementById('newsletterForm');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('newsletterEmail').value;
+                alert('شکریہ! ' + email + ' ءَ سبسکرائب بوتگی۔');
+                newsletterForm.reset();
+            });
+        }
+        
+        // Hero buttons navigation
+        const heroStartBtn = document.getElementById('heroStartBtn');
+        const heroDetectBtn = document.getElementById('heroDetectBtn');
+        if (heroStartBtn) heroStartBtn.addEventListener('click', () => {
+            document.querySelector('.nav-link[data-page="detectionPage"]').click();
+        });
+        if (heroDetectBtn) heroDetectBtn.addEventListener('click', () => {
+            document.querySelector('.nav-link[data-page="detectionPage"]').click();
+        });
+    });
+</script>
+
+<!-- Service Worker Registration -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then((registration) => {
+                    console.log('Bazgar PWA Service Worker registered with scope:', registration.scope);
+                })
+                .catch((error) => {
+                    console.error('Bazgar PWA Service Worker registration failed:', error);
+                });
+        });
+    }
+</script>
+
+</body>
+</html>

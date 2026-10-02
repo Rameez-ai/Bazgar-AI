@@ -1,0 +1,79 @@
+# ============================================
+# Bazgar Sangat AI - Git Ignore Configuration
+# ============================================
+
+# --- Python & Bytecode ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Virtual Environments ---
+venv/
+env/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+
+# --- Environment Variables & Secrets ---
+.env
+.env.local
+.env.*.local
+*.env
+
+# --- Operating System & Cache Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# --- IDEs & Code Editors ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# --- Vercel & Node / Frontend ---
+.vercel
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# --- Temporary & Scratch Files ---
+*.log
+scratch/
+tmp/
+temp/
+
+# --- ML Model Tracking Notice ---
+# Note: apple_disease_model.tflite is ~12.5MB (well below GitHub's 100MB limit).
+# Keep it tracked in Git so backend deployments and clones have the model ready.
+!backend/apple_disease_model.tflite
