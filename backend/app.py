@@ -1,11 +1,12 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-import tensorflow as tf
 from PIL import Image
 import numpy as np
 import io
 import os
+import sys
+import traceback
 from pathlib import Path
 import uvicorn
 import gradio as gr
@@ -29,17 +30,53 @@ MODEL_PATH = BASE_DIR / "apple_disease_model.tflite"
 # Disease classes
 CLASSES = ['Blotch Apple', 'Normal Apple', 'Rot Apple', 'Scab Apple']
 
-# Load TFLite Model
-print(f"Loading model from: {MODEL_PATH}...")
-try:
-    interpreter = tf.lite.Interpreter(model_path=str(MODEL_PATH))
-    interpreter.allocate_tensors()
+# Safe Model Loader compatible with Python 3.12 (ai_edge_litert, tflite_runtime, or tensorflow)
+def load_tflite_model(path: Path):
+    print(f"Loading model from: {path}...")
+    interp = None
+    # 1. Try modern Google LiteRT (recommended for Python 3.12)
+    try:
+        from ai_edge_litert.interpreter import Interpreter
+        print("Using ai_edge_litert...")
+        interp = Interpreter(model_path=str(path))
+        interp.allocate_tensors()
+        print("Model loaded successfully with ai_edge_litert!")
+        return interp
+    except Exception as e:
+        print(f"ai_edge_litert load note: {e}")
+
+    # 2. Try tflite_runtime
+    try:
+        from tflite_runtime.interpreter import Interpreter
+        print("Using tflite_runtime...")
+        interp = Interpreter(model_path=str(path))
+        interp.allocate_tensors()
+        print("Model loaded successfully with tflite_runtime!")
+        return interp
+    except Exception as e:
+        print(f"tflite_runtime load note: {e}")
+
+    # 3. Try standard tensorflow as fallback
+    try:
+        import tensorflow as tf
+        print("Using tensorflow.lite...")
+        interp = tf.lite.Interpreter(model_path=str(path))
+        interp.allocate_tensors()
+        print("Model loaded successfully with tensorflow!")
+        return interp
+    except Exception as e:
+        print(f"tensorflow load note: {e}")
+
+    print("CRITICAL: Failed to load TFLite model across all available runtimes.")
+    return None
+
+interpreter = load_tflite_model(MODEL_PATH)
+if interpreter:
     input_details = interpreter.get_input_details()
     output_details = interpreter.get_output_details()
-    print("Model loaded successfully!")
-except Exception as e:
-    print(f"Error loading model: {e}")
-    interpreter = None
+else:
+    input_details = None
+    output_details = None
 
 def preprocess_pil_image(image: Image.Image):
     """Preprocess PIL Image for TFLite model"""
@@ -51,6 +88,8 @@ def preprocess_pil_image(image: Image.Image):
 
 def run_inference(image_array):
     """Runs inference and returns dict of results"""
+    if not interpreter:
+        raise RuntimeError("Model is not loaded")
     interpreter.set_tensor(input_details[0]['index'], image_array)
     interpreter.invoke()
     predictions = interpreter.get_tensor(output_details[0]['index'])
@@ -76,7 +115,7 @@ async def health():
 async def predict(file: UploadFile = File(...)):
     """Predict disease from uploaded apple image file"""
     if not interpreter:
-        raise HTTPException(status_code=500, detail="Model not loaded")
+        raise HTTPException(status_code=500, detail="Model not loaded on server")
     if not file.content_type.startswith('image/'):
         raise HTTPException(status_code=400, detail="File must be an image")
     
@@ -158,4 +197,5 @@ app = gr.mount_gradio_app(app, demo, path="/")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7860))
+    print(f"🚀 Starting Bazgar AI server on 0.0.0.0:{port}...")
     uvicorn.run(app, host="0.0.0.0", port=port)
