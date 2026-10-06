@@ -11,6 +11,9 @@ try:
 except Exception:
     pass
 
+import warnings
+warnings.filterwarnings('ignore')
+
 import time
 import socket
 from pathlib import Path
