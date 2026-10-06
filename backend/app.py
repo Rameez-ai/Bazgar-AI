@@ -5,17 +5,16 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['PYTHONUNBUFFERED'] = '1'
 
 import sys
+import urllib.request
+import warnings
+warnings.filterwarnings('ignore')
+
 try:
     sys.stdout.reconfigure(line_buffering=True)
     sys.stderr.reconfigure(line_buffering=True)
 except Exception:
     pass
 
-import warnings
-warnings.filterwarnings('ignore')
-
-import time
-import socket
 from pathlib import Path
 from PIL import Image
 import numpy as np
@@ -30,11 +29,50 @@ import uvicorn
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "apple_disease_model.tflite"
+GITHUB_MODEL_URL = "https://github.com/Rameez-ai/Bazgar-AI/raw/main/backend/apple_disease_model.tflite"
 
 CLASSES = ['Blotch Apple', 'Normal Apple', 'Rot Apple', 'Scab Apple']
 
-# ================= 1. MODEL LOADING =================
-print(f"Loading model from: {MODEL_PATH}...", flush=True)
+# ================= 1. VERIFY & LOAD MODEL =================
+def ensure_model_file(path: Path) -> Path:
+    """Verifies the model file is authentic (~12.5MB and TFL3 header). If corrupt/LFS, downloads from GitHub."""
+    needs_download = False
+    if not path.exists():
+        print(f"⚠️ Model file not found at {path}.", flush=True)
+        needs_download = True
+    else:
+        file_size = path.stat().st_size
+        print(f"Found model file: {path} (size: {file_size} bytes)", flush=True)
+        if file_size < 10_000_000:
+            print(f"⚠️ File size ({file_size} bytes) is too small, expected ~12.5 MB. Likely Git LFS pointer or corrupt upload.", flush=True)
+            needs_download = True
+        else:
+            try:
+                with open(path, "rb") as f:
+                    header = f.read(16)
+                    if len(header) >= 8 and header[4:8] == b"TFL3":
+                        print("✅ Model header validated (TFL3).", flush=True)
+                    else:
+                        print(f"⚠️ Invalid TFLite header: {header[:16]!r}", flush=True)
+                        needs_download = True
+            except Exception as e:
+                print(f"⚠️ Error reading model file: {e}", flush=True)
+                needs_download = True
+
+    if needs_download:
+        print(f"⬇️ Downloading clean 12.5 MB model from GitHub: {GITHUB_MODEL_URL}...", flush=True)
+        try:
+            urllib.request.urlretrieve(GITHUB_MODEL_URL, str(path))
+            new_size = path.stat().st_size
+            print(f"✅ Successfully downloaded model! Size: {new_size} bytes.", flush=True)
+        except Exception as e:
+            print(f"❌ Failed to download model from GitHub: {e}", flush=True)
+
+    return path
+
+MODEL_PATH = ensure_model_file(MODEL_PATH)
+
+print(f"Loading TFLite model from: {MODEL_PATH}...", flush=True)
 interpreter = None
 input_details = None
 output_details = None
@@ -156,16 +194,4 @@ app = gr.mount_gradio_app(app, demo, path="/")
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7860))
     print(f"🚀 Starting Bazgar AI server on 0.0.0.0:{port}...", flush=True)
-
-    # Retry socket binding if previous run left socket in TIME_WAIT
-    for attempt in range(5):
-        try:
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                s.bind(('0.0.0.0', port))
-                break
-        except OSError:
-            print(f"Port {port} busy, waiting 2s... (attempt {attempt+1}/5)", flush=True)
-            time.sleep(2)
-
     uvicorn.run(app, host="0.0.0.0", port=port)
